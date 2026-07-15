@@ -4,6 +4,7 @@ const db=require('./database');
 const ffmpeg=require('./ffmpeg');
 const router=express.Router();
 const upload=multer({dest:'videos/'});
+const monitor=require("./monitor");
 
 function protect(req,res,next){
  if(req.session.login) next();
@@ -52,7 +53,18 @@ router.post('/upload',protect,upload.single('video'),(req,res)=>{
  db.run('INSERT INTO videos(name,path) VALUES(?,?)',[req.file.originalname,req.file.path]);
  res.json({success:true});
 });
+router.get(
+"/monitor",
+protect,
+(req,res)=>{
 
+
+res.json(
+monitor.get()
+);
+
+
+});
 router.get('/videos',protect,(req,res)=>{
  db.all('SELECT * FROM videos',(e,d)=>res.json(d));
 });
