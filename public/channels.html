@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Channels - Lite Restreamer
+</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="main">
+
+
+<div class="topbar">
+
+<h1>
+📺 Channel Manager
+</h1>
+
+<a href="dashboard.html">
+← Dashboard
+</a>
+
+</div>
+
+
+
+
+<div class="panel">
+
+
+<h2>
+➕ Add Streaming Channel
+</h2>
+
+
+<label>
+Channel Name
+</label>
+
+<input 
+id="name"
+placeholder="Example: My YouTube"
+>
+
+
+
+<label>
+Platform
+</label>
+
+<select id="platform">
+
+<option value="youtube">
+YouTube
+</option>
+
+
+<option value="facebook">
+Facebook
+</option>
+
+
+<option value="custom">
+Custom RTMP
+</option>
+
+</select>
+
+
+
+<label>
+RTMP Server URL
+</label>
+
+
+<input
+id="url"
+placeholder="rtmp://server-url"
+>
+
+
+
+<label>
+Stream Key
+</label>
+
+
+<input
+id="key"
+placeholder="Your stream key"
+type="password"
+>
+
+
+
+<button onclick="addChannel()">
+
+➕ Save Channel
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+📡 Saved Channels
+</h2>
+
+
+<div id="channels">
+
+Loading...
+
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+async function addChannel(){
+
+
+let r =
+await fetch(
+"/api/channel",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+
+body:JSON.stringify({
+
+name:
+document.getElementById("name").value,
+
+
+platform:
+document.getElementById("platform").value,
+
+
+url:
+document.getElementById("url").value,
+
+
+key:
+document.getElementById("key").value
+
+
+})
+
+});
+
+
+let d =
+await r.json();
+
+
+
+if(d.success){
+
+alert(
+"Channel saved"
+);
+
+
+loadChannels();
+
+}
+
+
+}
+
+
+
+
+async function loadChannels(){
+
+
+let r =
+await fetch(
+"/api/channels"
+);
+
+
+let data =
+await r.json();
+
+
+
+let box =
+document.getElementById("channels");
+
+
+box.innerHTML="";
+
+
+
+data.forEach(c=>{
+
+
+box.innerHTML+=`
+
+<div class="card">
+
+
+<h3>
+${c.name}
+</h3>
+
+
+<p>
+Platform:
+${c.platform || "RTMP"}
+</p>
+
+
+<p>
+Server:
+${c.url}
+</p>
+
+
+<button onclick="useChannel('${c.url}/${c.key}')">
+
+Use Channel
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+function useChannel(rtmp){
+
+
+localStorage.channel=rtmp;
+
+
+alert(
+"Channel selected"
+);
+
+
+}
+
+
+
+
+loadChannels();
+
+
+</script>
+
+
+
+</body>
+
+</html>
