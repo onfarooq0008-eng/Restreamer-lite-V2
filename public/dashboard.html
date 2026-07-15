@@ -1,5 +1,150 @@
-<h1>Lite Restreamer Dashboard</h1>
-<a href='videos.html'>Videos</a> |
-<a href='channels.html'>Channels</a>
-<br><br>
-<button onclick="fetch('/api/stream/stop',{method:'POST'})">Stop Stream</button>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+Lite Restreamer
+</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+
+<div class="logo">
+Lite Stream
+</div>
+
+
+<div class="menu">
+
+<a href="dashboard.html">
+Dashboard
+</a>
+
+<a href="videos.html">
+Videos
+</a>
+
+<a href="channels.html">
+Channels
+</a>
+
+<a href="settings.html">
+Settings
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="main">
+
+
+<h1>
+Dashboard
+</h1>
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>
+Stream Status
+</h3>
+
+<div class="value" id="status">
+Checking...
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Server
+</h3>
+
+<div class="value" id="server">
+-
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+RAM Usage
+</h3>
+
+<div class="value" id="ram">
+-
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Uptime
+</h3>
+
+<div class="value" id="uptime">
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<br>
+
+
+<div class="card">
+
+<h2>
+Stream Control
+</h2>
+
+
+<button onclick="stopStream()">
+Stop Stream
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
