@@ -1,0 +1,6 @@
+<h2>Lite Restreamer Login</h2>
+<input id='u' placeholder='username'><input id='p' placeholder='password' type='password'>
+<button onclick='l()'>Login</button>
+<script>
+async function l(){let r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u.value,password:p.value})});let d=await r.json();if(d.success)location='/dashboard.html';}
+</script>
