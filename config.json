@@ -1,8 +1,15 @@
 {
- "port":8000,
- "admin_user":"admin",
- "admin_password":"admin123"
- "max_streams":1,
-"quality":"720p",
-"bitrate":"1200k"
+  "admin_user": "admin",
+  "admin_password": "admin123",
+  "max_streams": 1,
+  "quality": "720p",
+  "video_bitrate": "1200k",
+  "audio_bitrate": "128k",
+  "ffmpeg_preset": "veryfast",
+  "auto_restart": true,
+  "scheduler_enabled": true,
+  "watermark_enabled": true,
+  "music_enabled": true,
+  "upload_limit_mb": 500,
+  "session_timeout_minutes": 60
 }
