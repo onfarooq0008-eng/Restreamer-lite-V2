@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="style.css">
+
+
+<h1>
+Live Monitor
+</h1>
+
+
+<div class="cards">
+
+
+<div class="card">
+FPS
+<h2 id="fps">0</h2>
+</div>
+
+
+<div class="card">
+Bitrate
+<h2 id="bitrate">0</h2>
+</div>
+
+
+<div class="card">
+Resolution
+<h2 id="resolution">-</h2>
+</div>
+
+
+<div class="card">
+Uptime
+<h2 id="uptime">0</h2>
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+setInterval(async()=>{
+
+
+let r=
+await fetch("/api/monitor");
+
+
+let d=
+await r.json();
+
+
+fps.innerHTML=d.fps;
+
+bitrate.innerHTML=
+d.bitrate+" kbps";
+
+
+resolution.innerHTML=
+d.resolution;
+
+
+uptime.innerHTML=
+d.uptime+" sec";
+
+
+},2000);
+
+
+</script>
