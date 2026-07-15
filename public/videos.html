@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Video Library - Lite Restreamer
+</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="main">
+
+
+<h1>
+🎬 Video Library
+</h1>
+
+
+<div class="panel">
+
+
+<h2>
+Upload Video
+</h2>
+
+
+<form action="/api/upload" method="POST" enctype="multipart/form-data">
+
+<input 
+type="file"
+name="video"
+accept="video/*"
+>
+
+
+<button>
+Upload
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Available Videos
+</h2>
+
+
+<div id="videos">
+
+Loading...
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<script>
+
+
+async function loadVideos(){
+
+
+let r=
+await fetch("/api/videos");
+
+
+let data=
+await r.json();
+
+
+
+let box=
+document.getElementById("videos");
+
+box.innerHTML="";
+
+
+
+data.forEach(v=>{
+
+
+box.innerHTML+=`
+
+<div class="card">
+
+🎬 ${v.name}
+
+<br>
+
+<button onclick="selectVideo('${v.path}')">
+
+Use for Stream
+
+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+
+function selectVideo(path){
+
+localStorage.video=path;
+
+alert("Video selected");
+
+}
+
+
+
+loadVideos();
+
+
+</script>
+
+
+
+</body>
+
+</html>
