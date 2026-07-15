@@ -1,180 +1,152 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
 
-<title>
-Lite Restreamer
-</title>
+<title>Lite Restreamer Dashboard</title>
 
 <link rel="stylesheet" href="style.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 
 
 <body>
-<div class="cards">
-
-<div class="card">
-🟢 Live Status
-</div>
-
-<div class="card">
-📊 Bitrate
-</div>
-
-<div class="card">
-🎬 Current Video
-</div>
-
-<div class="card">
-⏱ Duration
-</div>
-
-</div>
-
-  
-async function startLive(){
 
 
-await fetch(
-"/api/quick-start",
-{
+<!-- Sidebar -->
 
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-
-body:JSON.stringify({
-
-video:video.value,
-
-channel:channel.value
-
-})
-
-
-});
-
-
-alert(
-"Stream Started"
-);
-
-
-}
-  
 <div class="sidebar">
 
 
 <div class="logo">
-Lite Stream
+🚀 Lite Stream
 </div>
 
 
 <div class="menu">
 
-<a href="dashboard.html">
-Dashboard
+<a class="active" href="dashboard.html">
+📊 Dashboard
 </a>
+
 
 <a href="videos.html">
-Videos
+🎬 Videos
 </a>
+
 
 <a href="channels.html">
-Channels
+📺 Channels
 </a>
+
+
+<a href="monitor.html">
+📈 Monitor
+</a>
+
 
 <a href="settings.html">
-Settings
+⚙ Settings
 </a>
 
 
 </div>
 
-<div class="card">
-
-<h2>
-Quick Stream
-</h2>
-
-
-<select id="video">
-
-</select>
-
-
-<select id="channel">
-
-</select>
-
-
-<button onclick="startLive()">
-
-▶ Start Stream
-
-</button>
-
 
 </div>
-  
-</div>
 
 
+
+
+
+<!-- Main Area -->
 
 <div class="main">
 
+
+<div class="topbar">
 
 <h1>
 Dashboard
 </h1>
 
 
+<div class="live-badge">
+
+● System Online
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- Statistics -->
+
+
 <div class="cards">
 
 
 <div class="card">
 
+<div class="icon">
+🟢
+</div>
+
 <h3>
 Stream Status
 </h3>
+
 
 <div class="value" id="status">
 Checking...
 </div>
 
+
 </div>
 
 
 
 <div class="card">
 
+<div class="icon">
+📊
+</div>
+
 <h3>
-Server
+Bitrate
 </h3>
 
-<div class="value" id="server">
+
+<div class="value" id="bitrate">
+0 kbps
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+<div class="icon">
+🎬
+</div>
+
+<h3>
+Current Video
+</h3>
+
+
+<div class="value" id="current">
 -
 </div>
 
-</div>
-
-
-
-<div class="card">
-
-<h3>
-RAM Usage
-</h3>
-
-<div class="value" id="ram">
--
-</div>
 
 </div>
 
@@ -182,44 +154,235 @@ RAM Usage
 
 <div class="card">
 
+<div class="icon">
+⏱
+</div>
+
 <h3>
-Uptime
+Duration
 </h3>
+
 
 <div class="value" id="uptime">
--
-</div>
-
-</div>
-
-
+00:00
 </div>
 
 
+</div>
 
-<br>
+
+</div>
 
 
-<div class="card">
+
+
+
+
+
+<!-- Quick Stream -->
+
+
+<div class="panel">
+
 
 <h2>
-Stream Control
+▶ Quick Stream
 </h2>
 
 
-<button onclick="stopStream()">
-Stop Stream
+<div class="form">
+
+
+<label>
+Select Video
+</label>
+
+
+<select id="video">
+
+<option>
+Choose video
+</option>
+
+</select>
+
+
+
+
+<label>
+Select Channel
+</label>
+
+
+<select id="channel">
+
+<option>
+Choose channel
+</option>
+
+</select>
+
+
+
+
+<button onclick="startLive()">
+
+🚀 Start Streaming
+
+</button>
+
+
+<button class="stop"
+onclick="stopStream()">
+
+⛔ Stop Stream
+
 </button>
 
 
 </div>
 
 
+</div>
+
+
+
+
+
+
+
+
+<!-- Server -->
+
+
+<div class="panel">
+
+
+<h2>
+🖥 Server Information
+</h2>
+
+
+<div class="server-grid">
+
+
+<div>
+RAM
+<strong id="ram">
+-
+</strong>
+</div>
+
+
+
+<div>
+Server
+<strong id="server">
+Online
+</strong>
+</div>
+
+
+
+<div>
+Uptime
+<strong id="serverTime">
+-
+</strong>
+</div>
+
 
 </div>
 
 
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
 <script src="app.js"></script>
+
+
+<script>
+
+
+async function startLive(){
+
+
+let response =
+await fetch(
+"/api/quick-start",
+{
+
+method:"POST",
+
+headers:
+{
+"Content-Type":"application/json"
+},
+
+
+body:
+JSON.stringify({
+
+video:
+document.getElementById("video").value,
+
+
+channel:
+document.getElementById("channel").value
+
+})
+
+});
+
+
+let data =
+await response.json();
+
+
+
+alert(
+data.status || "Stream Started"
+);
+
+
+}
+
+
+
+
+async function stopStream(){
+
+
+await fetch(
+
+"/api/stream/stop",
+
+{
+method:"POST"
+}
+
+);
+
+
+alert(
+"Stream stopped"
+);
+
+
+}
+
+
+</script>
+
 
 
 </body>
