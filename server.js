@@ -24,3 +24,17 @@ app.post('/api/login',(req,res)=>{
 app.use('/api',routes);
 
 app.listen(8000,()=>console.log('Lite Restreamer running'));
+
+app.get('/api/health',(req,res)=>{
+
+res.json({
+
+memory:
+process.memoryUsage().rss,
+
+uptime:
+process.uptime()
+
+});
+
+});
