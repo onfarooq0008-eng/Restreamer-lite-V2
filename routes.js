@@ -10,6 +10,44 @@ function protect(req,res,next){
  else res.status(401).json({error:'login required'});
 }
 
+router.post(
+"/channel/add",
+protect,
+(req,res)=>{
+
+
+let {
+name,
+platform,
+url,
+key
+}=req.body;
+
+
+
+db.run(
+
+`INSERT INTO channels
+(name,platform,url,key)
+VALUES(?,?,?,?)`,
+
+[
+name,
+platform,
+url,
+key
+]
+
+);
+
+
+res.json({
+success:true
+});
+
+
+});
+
 router.post('/upload',protect,upload.single('video'),(req,res)=>{
  db.run('INSERT INTO videos(name,path) VALUES(?,?)',[req.file.originalname,req.file.path]);
  res.json({success:true});
