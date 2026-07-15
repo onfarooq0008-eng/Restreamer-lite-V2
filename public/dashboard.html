@@ -15,7 +15,39 @@ Lite Restreamer
 
 <body>
 
+async function startLive(){
 
+
+await fetch(
+"/api/quick-start",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+
+body:JSON.stringify({
+
+video:video.value,
+
+channel:channel.value
+
+})
+
+
+});
+
+
+alert(
+"Stream Started"
+);
+
+
+}
+  
 <div class="sidebar">
 
 
