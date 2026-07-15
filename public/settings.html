@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
+
+<title>
+Settings - Lite Restreamer
+</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,33 +20,415 @@
 <div class="main">
 
 
+<div class="topbar">
+
 <h1>
-Settings
+⚙ Settings
 </h1>
+
+<a href="dashboard.html">
+← Dashboard
+</a>
+
+</div>
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+🔐 Admin Settings
+</h2>
+
+
+<label>
+New Password
+</label>
+
+
+<input 
+id="password"
+type="password"
+placeholder="Enter new password"
+>
+
+
+<button onclick="changePassword()">
+
+🔒 Update Password
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+🖼 Watermark Logo
+</h2>
+
+
+<p>
+Upload logo for your live stream
+</p>
+
+
+<input 
+type="file"
+id="logo"
+accept="image/*"
+>
+
+
+<button onclick="uploadLogo()">
+
+Upload Logo
+
+</button>
+
+
+<div id="logoStatus">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+🎵 Background Music
+</h2>
+
+
+<p>
+Upload background music for stream
+
+</p>
+
+
+<input 
+type="file"
+id="music"
+accept="audio/*"
+>
+
+
+<button onclick="uploadMusic()">
+
+Upload Music
+
+</button>
+
+
+<div id="musicStatus">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+📊 Stream Quality
+
+</h2>
+
+
+<label>
+Video Bitrate
+</label>
+
+
+<select id="bitrate">
+
+<option>
+800k
+</option>
+
+<option selected>
+1200k
+</option>
+
+<option>
+2000k
+</option>
+
+</select>
+
+
+
+<label>
+Quality
+
+</label>
+
+
+<select id="quality">
+
+
+<option>
+480p
+</option>
+
+
+<option selected>
+720p
+</option>
+
+
+<option>
+1080p
+</option>
+
+
+</select>
+
+
+
+
+<button onclick="saveSettings()">
+
+💾 Save Settings
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="panel">
+
+
+<h2>
+🖥 System
+
+</h2>
 
 
 <div class="card">
 
+Auto Restart:
 
-<h3>
-System
-</h3>
+<span id="restart">
+
+Enabled
+
+</span>
+
+</div>
 
 
-<p>
-Lite Restreamer V2.1
-</p>
+<br>
 
 
-<p>
-Optimized for Koyeb 512MB
-</p>
+<div class="card">
+
+Server:
+
+<span style="color:#22c55e">
+
+Online
+
+</span>
+
+</div>
+
 
 
 </div>
 
 
+
+
+
+
 </div>
+
+
+
+
+
+<script>
+
+
+
+async function uploadLogo(){
+
+
+let file =
+document.getElementById("logo").files[0];
+
+
+let form =
+new FormData();
+
+
+form.append(
+"logo",
+file
+);
+
+
+
+let r =
+await fetch(
+"/api/upload/logo",
+{
+
+method:"POST",
+
+body:form
+
+});
+
+
+let d =
+await r.json();
+
+
+document.getElementById("logoStatus").innerHTML =
+"✅ Logo uploaded";
+
+
+}
+
+
+
+
+
+
+async function uploadMusic(){
+
+
+let file =
+document.getElementById("music").files[0];
+
+
+let form =
+new FormData();
+
+
+form.append(
+"music",
+file
+);
+
+
+
+await fetch(
+"/api/upload/music",
+{
+
+method:"POST",
+
+body:form
+
+});
+
+
+document.getElementById("musicStatus").innerHTML =
+"✅ Music uploaded";
+
+
+}
+
+
+
+
+
+
+
+async function saveSettings(){
+
+
+await fetch(
+"/api/settings",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+
+body:JSON.stringify({
+
+bitrate:
+document.getElementById("bitrate").value,
+
+
+quality:
+document.getElementById("quality").value
+
+
+})
+
+});
+
+
+alert(
+"Settings saved"
+);
+
+
+}
+
+
+
+
+
+
+async function changePassword(){
+
+
+let password =
+document.getElementById("password").value;
+
+
+alert(
+"Password update API can be connected here"
+);
+
+
+}
+
+
+
+</script>
+
 
 
 </body>
