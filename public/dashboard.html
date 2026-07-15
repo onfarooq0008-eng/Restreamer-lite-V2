@@ -210,7 +210,7 @@ Select Channel
 </label>
 
 
-<select id="channel">
+const select = document.getElementById('channel');
 
 <option value="">Select Channel </option>
 
@@ -404,7 +404,35 @@ async function loadVideos(){
 
 
 loadVideos();
-  
+
+  async function loadChannels(){
+
+    const res = await fetch('/api/channels');
+
+    const channels = await res.json();
+
+    const select = document.getElementById('channel');
+
+    if(!select) return;
+
+    select.innerHTML = '<option value="">Select Channel</option>';
+
+    channels.forEach(c=>{
+
+        let option = document.createElement('option');
+
+        option.value = JSON.stringify(c);
+
+        option.textContent = c.name;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+loadChannels();
+    
 </script>
 
 
