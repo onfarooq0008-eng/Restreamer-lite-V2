@@ -376,7 +376,37 @@ alert(
 
 }
 
+async function loadVideos(){
 
+    let res = await fetch("/api/videos");
+
+    let videos = await res.json();
+
+
+    let select = document.getElementById("video");
+
+    select.innerHTML =
+    '<option value="">Select Video</option>';
+
+
+    videos.forEach(video=>{
+
+        let option=document.createElement("option");
+
+        option.value=video.path;
+
+        option.textContent=video.name;
+
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+loadVideos();
+  
 </script>
 
 
